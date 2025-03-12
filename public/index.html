@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mirz</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.discordapp.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVJPNTKK9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZVJPNTKK9N');
+    </script>
+    <style>
+        /* Импорт шрифта Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000000;
+            color: #FFFFFF;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Улучшенный звездный фон */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            perspective: 1000px;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .container:hover .stars {
+            opacity: 0.8;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: starTravel var(--duration, 3s) linear infinite;
+            opacity: 0;
+            box-shadow: 0 0 4px #fff;
+        }
+
+        .star.bright {
+            width: 3px;
+            height: 3px;
+            box-shadow: 
+                0 0 6px #fff,
+                0 0 12px #fff;
+        }
+
+        @keyframes starTravel {
+            0% {
+                transform: translateZ(0) translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateZ(-1000px) translateY(-100px) translateX(-100px);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 0 20px;
+        }
+
+        .cards-wrapper {
+            display: flex;
+            gap: 20px;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            transform: translateX(0);
+        }
+
+        .profile-card {
+            background: rgba(20, 20, 20, 0.4);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            width: 400px;
+            padding: 40px;
+            border: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            border-radius: 24px;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.3),
+                rgba(255, 255, 255, 0.1) 20%,
+                rgba(255, 255, 255, 0.2) 30%,
+                rgba(255, 255, 255, 0.1) 40%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.1) 60%,
+                rgba(255, 255, 255, 0.2) 70%,
+                rgba(255, 255, 255, 0.1) 80%,
+                rgba(255, 255, 255, 0.3)
+            );
+            mask: 
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            margin-bottom: 5px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, 
+                rgba(255, 255, 255, 0.1), 
+                rgba(255, 255, 255, 0.05), 
+                rgba(255, 255, 255, 0.1)
+            );
+            z-index: -1;
+        }
+
+        .avatar:hover {
+            transform: scale(1.02);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content {
+            padding: 45px 20px 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 20px; /* Равномерные отступы между элементами */
+        }
+
+        .username {
+            font-size: 24px;
+            font-weight: 500;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.95), 
+                rgba(255, 255, 255, 0.8)
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            margin: 15px 0;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
+
+        .tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .tag:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tag:hover::before {
+            left: 100%;
+        }
+
+        .tag:active {
+            transform: translateY(0);
+        }
+
+        .location {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin: 15px 0;
+            transition: background 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .location:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .location svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+        }
+
+        .social-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+
+        /* Эффект при наведении на иконки */
+        .social-icon:hover {
+            color: rgba(255, 255, 255, 1);
+            transform: translateY(-3px);
+        }
+
+        .social-icon:hover::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            background: radial-gradient(
+                circle at center,
+                rgba(255, 255, 255, 0.15),
+                transparent 70%
+            );
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .social-icon:active {
+            transform: translateY(-1px);
+        }
+
+        /* Добавляем свечение при наведении */
+        .social-icon:hover svg {
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+        }
+
+        /* Обновляем стили для аудиоплеера */
+        .audio-player {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-player::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            background: linear-gradient(
+                45deg,
+                rgba(255,255,255,0.1),
+                rgba(255,255,255,0.2),
+                rgba(255,255,255,0.1)
+            );
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .song-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .song-thumbnail {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .song-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .song-details {
+            flex: 1;
+        }
+
+        .song-title {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: -0.2px;
+        }
+
+        .song-time {
+            font-size: 12px;
+            font-weight: 400;
+            color: #666;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #2563EB, #3B82F6);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .play-pause {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .play-pause:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .time-display {
+            font-size: 12px;
+            font-weight: 400;
+            color: #666;
+        }
+
+        /* Стили для кнопки портфолио */
+        .portfolio-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .portfolio-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Эффект свечения при наведении */
+        .portfolio-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.2),
+                rgba(255, 255, 255, 0.1)
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .portfolio-btn:hover::after {
+            opacity: 1;
+        }
+
+        .portfolio-card {
+            position: absolute;
+            left: 100%;
+            background: transparent;
+            width: 100%;
+            padding: 20px;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .portfolio-items {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow: visible;
+        }
+
+        .portfolio-row {
+            display: flex;
+            gap: 80px;
+            position: relative;
+        }
+
+        .portfolio-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            visibility: hidden;
+        }
+
+        .section-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .section-title {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-size: 16px !important;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            white-space: nowrap;
+        }
+
+        .redux-link {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            opacity: 1;
+            position: relative;
+            overflow: hidden;
+            display: block;
+            white-space: nowrap;
+            line-height: 1.8;
+        }
+
+        .redux-link:hover {
+            color: rgba(255, 255, 255, 0.95);
+            transform: translateX(2px);
+        }
+
+        /* Разделители */
+        .portfolio-row .portfolio-section:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -40px;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.07) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+        }
+
+        /* Анимация появления */
+        .show-portfolio .redux-link {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Задержки для анимации */
+        .portfolio-section:nth-child(1) { transition-delay: 0.1s; }
+        .portfolio-section:nth-child(2) { transition-delay: 0.2s; }
+        .portfolio-section:nth-child(3) { transition-delay: 0.3s; }
+
+        .section-content a {
+            --index: 0;
+        }
+
+        .section-content a:nth-child(1) { --index: 1; }
+        .section-content a:nth-child(2) { --index: 2; }
+        .section-content a:nth-child(3) { --index: 3; }
+        .section-content a:nth-child(4) { --index: 4; }
+        .section-content a:nth-child(5) { --index: 5; }
+        .section-content a:nth-child(6) { --index: 6; }
+        .section-content a:nth-child(7) { --index: 7; }
+        .section-content a:nth-child(8) { --index: 8; }
+        .section-content a:nth-child(9) { --index: 9; }
+        .section-content a:nth-child(10) { --index: 10; }
+        .section-content a:nth-child(11) { --index: 11; }
+        .section-content a:nth-child(12) { --index: 12; }
+        .section-content a:nth-child(13) { --index: 13; }
+
+        .preview-image {
+            width: 400px;
+            height: 225px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .portfolio-description {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .portfolio-description h3 {
+            font-size: 14px;
+            margin: 0 0 8px 0;
+        }
+
+        .portfolio-description ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .portfolio-description li {
+            padding-left: 12px;
+            margin-bottom: 4px;
+            position: relative;
+        }
+
+        .portfolio-description li:before {
+            content: "-";
+            position: absolute;
+            left: 0;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Анимация для других элементов */
+        .portfolio-item.expanded {
+            padding-right: 40px;
+        }
+
+        .portfolio-item.collapsed {
+            opacity: 0.5;
+            transform: translateX(-20px);
+        }
+
+        /* Анимация появления портфолио */
+        .show-portfolio .cards-wrapper {
+            transform: translateX(-65%);
+        }
+
+        .show-portfolio .profile-card {
+            transform: scale(0.95) translateX(-30px);
+            opacity: 0.7;
+        }
+
+        .show-portfolio .portfolio-card {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .show-portfolio .portfolio-section {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+            transition-delay: 0.3s;
+        }
+
+        /* Заголовок портфолио */
+        .portfolio-title {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .show-portfolio .portfolio-title {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Анимация появления элементов портфолио */
+        .portfolio-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .show-portfolio .portfolio-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portfolio-item:nth-child(1) { transition-delay: 0.1s; }
+        .portfolio-item:nth-child(2) { transition-delay: 0.2s; }
+        .portfolio-item:nth-child(3) { transition-delay: 0.3s; }
+
+        .view-counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .eye-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.6;
+        }
+
+        /* Обновленные стили для достижений */
+        .achievements {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .achievement-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+            line-height: 1.4;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            transition: color 0.3s ease;
+        }
+
+        .achievement-text:hover {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Улучшенный стиль для аватара */
+        .avatar {
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, 
+                rgba(255, 255, 255, 0.1), 
+                rgba(255, 255, 255, 0.05), 
+                rgba(255, 255, 255, 0.1)
+            );
+            z-index: -1;
+        }
+
+        .avatar:hover {
+            transform: scale(1.02);
+        }
+
+        /* Улучшенный стиль для username */
+        .username {
+            font-size: 24px;
+            font-weight: 500;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.95), 
+                rgba(255, 255, 255, 0.8)
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            margin: 15px 0;
+        }
+
+        /* Улучшенный стиль для локации */
+        .location {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin: 15px 0;
+            transition: background 0.3s ease;
+        }
+
+        .location:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Улучшенные социальные иконки */
+        .social-links {
+            margin: 20px 0;
+        }
+
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+
+        .social-icon:hover::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            background: radial-gradient(
+                circle at center,
+                rgba(255, 255, 255, 0.15),
+                transparent 70%
+            );
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Улучшенный фон */
+        .background-glow {
+            background: radial-gradient(
+                circle at center,
+                rgba(25, 25, 25, 0.8),
+                rgba(0, 0, 0, 0.95)
+            );
+        }
+
+        /* Обновленные стили для мобильного портфолио */
+        @media screen and (max-width: 768px) {
+            /* Изменяем отображение портфолио */
+            .show-portfolio .cards-wrapper {
+                transform: translateX(0); /* Убираем смещение */
+            }
+
+            .show-portfolio .profile-card {
+                display: none; /* Скрываем основную карточку */
+            }
+
+            .portfolio-card {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                padding: 20px;
+                overflow-y: auto;
+                background: #000000;
+            }
+
+            /* Стилизуем секции портфолио */
+            .portfolio-row {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .portfolio-section {
+                background: rgba(255, 255, 255, 0.03);
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .section-title {
+                font-size: 18px !important;
+                margin-bottom: 15px;
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+
+            .redux-link {
+                font-size: 14px;
+                padding: 10px 0;
+                display: block;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .redux-link:last-child {
+                border-bottom: none;
+            }
+
+            /* Стилизуем кнопку возврата */
+            .back-button {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border: none;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                cursor: pointer;
+                z-index: 1000;
+                font-size: 14px;
+                display: none;
+            }
+
+            .show-portfolio .back-button {
+                display: block;
+            }
+        }
+
+        /* Дополнительные стили для очень маленьких экранов */
+        @media screen and (max-width: 480px) {
+            .portfolio-section {
+                padding: 15px;
+            }
+
+            .section-title {
+                font-size: 16px !important;
+            }
+
+            .redux-link {
+                font-size: 13px;
+                padding: 8px 0;
+            }
+
+            .back-button {
+                top: 15px;
+                right: 15px;
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+        }
+
+        /* Стили для ландшафтной ориентации на мобильных */
+        @media screen and (max-height: 600px) and (orientation: landscape) {
+            .container {
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .profile-card {
+                margin: 20px auto;
+            }
+
+            .avatar {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* Предотвращение горизонтального скролла */
+        body {
+            overflow-x: hidden;
+        }
+
+        .cards-wrapper {
+            max-width: 100vw;
+        }
+
+        /* Улучшение читаемости на маленьких экранах */
+        .redux-link {
+            font-size: 13px;
+            padding: 4px 0;
+        }
+
+        .section-title {
+            font-size: 15px !important;
+        }
+
+        /* Оптимизация анимаций для мобильных */
+        @media (prefers-reduced-motion: reduce) {
+            .redux-link,
+            .social-icon,
+            .portfolio-card,
+            .profile-card {
+                transition: none;
+            }
+        }
+
+        /* Стили для мобильного уведомления */
+        .mobile-notice {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            max-width: 280px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Стили для мобильного уведомления */
+        .mobile-portfolio-notice {
+            display: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* Медиа-запрос для мобильных устройств */
+        @media screen and (max-width: 768px) {
+            /* Скрываем портфолио на мобильных */
+            .portfolio-card {
+                display: none !important;
+            }
+
+            /* Показываем уведомление */
+            .mobile-portfolio-notice {
+                display: block;
+            }
+
+            /* Отключаем действие кнопки портфолио */
+            .tag[onclick] {
+                pointer-events: none;
+                opacity: 0.7;
+            }
+
+            /* Стили для мобильного уведомления */
+            .mobile-notice {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(10px);
+                padding: 15px 20px;
+                border-radius: 12px;
+                color: white;
+                text-align: center;
+                font-size: 14px;
+                max-width: 280px;
+                z-index: 1000;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        /* Стили для кнопок в .tags */
+        .tags {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        /* Обновленные стили для отзывов */
+        .review-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .review-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .review-content {
+            flex: 1;
+            min-width: 0; /* Для корректного переноса текста */
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .review-name {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .review-stars {
+            color: #ffd700;
+            font-size: 12px;
+        }
+
+        .review-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        /* Компактный скролл для отзывов */
+        .reviews-card {
+            position: absolute;
+            left: 100%;
+            background: rgba(20, 20, 20, 0.4);
+            border-radius: 24px;
+            width: 100%;
+            max-height: 80vh;
+            padding: 25px;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            visibility: hidden;
+            overflow-y: auto;
+        }
+
+        /* Стилизация скроллбара */
+        .reviews-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .reviews-card::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .reviews-card::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+    </style>
+    <script src="stars.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="background-glow"></div>
+    
+    <div class="container">
+        <div class="cards-wrapper">
+            <div class="profile-card">
+                <div class="content">
+                    <div class="avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg?ex=67d33f23&is=67d1eda3&hm=54e6e3e40a675c91452c78ae4c46d7d91bbf2480772151e740121f4db407f1f1&" alt="Avatar">
+                    </div>
+                    <div class="username">mirz</div>
+                    <div class="achievements">
+                        <div class="achievement-text">First Animated Gunpack Creator</div>
+                        <div class="achievement-text">First Animated Minimap Creator</div>
+                    </div>
+                    <div class="view-counter">
+                        <svg class="eye-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-3-3-3-3z"/>
+                        </svg>
+                        <span id="viewCount">0</span>
+                    </div>
+                    <div class="tags">
+                        <a href="#" class="tag" onclick="togglePortfolio(event)">PORTFOLIO</a>
+                    </div>
+                    <div class="mobile-portfolio-notice">
+                        Portfolio is available only in desktop version
+                    </div>
+                    <div class="location">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 0C4.686 0 2 2.686 2 6c0 4.42 6 10 6 10s6-5.58 6-10c0-3.314-2.686-6-6-6zm0 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                        </svg>
+                        Netherlands
+                    </div>
+                    <div class="social-links">
+                        <a href="https://discord.gg/dfNczbDwPD" target="_blank" rel="noopener noreferrer" class="social-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" fill="currentColor">
+                                <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.youtube.com/@mirzzzz" target="_blank" rel="noopener noreferrer" class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                        <a href="https://t.me/miirzzz" target="_blank" rel="noopener noreferrer" class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="portfolio-card">
+                <div class="portfolio-items">
+                    <div class="portfolio-row">
+                        <!-- REDUX SECTION -->
+                        <div class="portfolio-section">
+                            <a href="#" class="redux-link section-title" data-text="REDUX">REDUX</a>
+                            <div class="section-content">
+                                <a href="https://youtu.be/rPYy2BjrrO0?si=KFqVjbflFY0uSYGq" class="redux-link" data-text="ICY REDUX V6.0" target="_blank" rel="noopener noreferrer">ICY REDUX V6.0</a>
+                                <a href="https://youtu.be/rPYy2BjrrO0?si=KFqVjbflFY0uSYGq" class="redux-link" data-text="ICY REDUX V6.0" target="_blank" rel="noopener noreferrer">ICY REDUX V6.0</a>
+                                <a href="https://www.youtube.com/watch?v=a9rhWMMdVYo&t=1s" class="redux-link" data-text="ICY REDUX V5.0" target="_blank" rel="noopener noreferrer">ICY REDUX V5.0</a>
+                                <a href="https://www.youtube.com/watch?v=7_w_tX4GeRA" class="redux-link" data-text="DRAIN REDUX V3" target="_blank" rel="noopener noreferrer">DRAIN REDUX V3</a>
+                                <a href="https://www.youtube.com/watch?v=bNfibDU7IE4&t" class="redux-link" data-text="DRAIN REDUX V2" target="_blank" rel="noopener noreferrer">DRAIN REDUX V2</a>
+                                <a href="https://www.youtube.com/watch?v=QCYmaiszXz4" class="redux-link" data-text="DRAIN REDUX" target="_blank" rel="noopener noreferrer">DRAIN REDUX</a>
+                                <a href="https://www.youtube.com/watch?v=Fp9BMkSqNjQ&t" class="redux-link" data-text="SAKUTA REDUX V2" target="_blank" rel="noopener noreferrer">SAKUTA REDUX V2</a>
+                                <a href="https://www.youtube.com/watch?v=N1nxQdr4HbE" class="redux-link" data-text="SAKUTA WHITE BLUE REDUX" target="_blank" rel="noopener noreferrer">SAKUTA WHITE BLUE REDUX</a>
+                                <a href="https://www.youtube.com/watch?v=2sMthPsESRM&t" class="redux-link" data-text="MIU REDUX" target="_blank" rel="noopener noreferrer">MIU REDUX</a>
+                                <a href="https://www.youtube.com/watch?v=hWjB8GfePb0" class="redux-link" data-text="PINK REDUX" target="_blank" rel="noopener noreferrer">PINK REDUX</a>
+                                <a href="https://www.youtube.com/watch?v=eJYCI4ITM34&t" class="redux-link" data-text="RENAKO REDUX V5" target="_blank" rel="noopener noreferrer">RENAKO REDUX V5</a>
+                                <a href="https://t.me/c/1678570174/248" class="redux-link" data-text="RENAKO REDUX V4" target="_blank" rel="noopener noreferrer">RENAKO REDUX V4</a>
+                                <a href="https://t.me/slivki_mods/55" class="redux-link" data-text="BUTTERFLY" target="_blank" rel="noopener noreferrer">BUTTERFLY</a>
+                                <a href="https://www.youtube.com/watch?v=fhnZ6dwZvKk&t" class="redux-link" data-text="VICTORIA BELL REDUX" target="_blank" rel="noopener noreferrer">VICTORIA BELL REDUX</a>
+                            </div>
+                        </div>
+
+                        <!-- COLLABORATIONS SECTION -->
+                        <div class="portfolio-section">
+                            <a href="#" class="redux-link section-title" data-text="COLLABORATIONS">COLLABORATIONS</a>
+                            <div class="section-content">
+                                <a href="https://www.youtube.com/watch?v=b1xoXYfCbFc" class="redux-link" data-text="GAMESENSE REDUX" target="_blank" rel="noopener noreferrer">GAMESENSE REDUX</a>
+                                <a href="https://t.me/slivki_mods/108" class="redux-link" data-text="FIX EFFECTS" target="_blank" rel="noopener noreferrer">FIX EFFECTS</a>
+                                <a href="https://www.youtube.com/watch?v=LKAe5ZtLcjc" class="redux-link" data-text="EXORCISM REDUX" target="_blank" rel="noopener noreferrer">EXORCISM REDUX</a>
+                                <a href="https://www.youtube.com/watch?v=r75RT_h9o-Y" class="redux-link" data-text="OUTSIDE REDUX V2" target="_blank" rel="noopener noreferrer">OUTSIDE REDUX V2</a>
+                                <a href="https://www.youtube.com/watch?v=xTiTQzBAsI0" class="redux-link" data-text="TIMECYCLE PACK" target="_blank" rel="noopener noreferrer">TIMECYCLE PACK</a>
+                                <a href="https://www.youtube.com/watch?v=AHnX9PMUwD8" class="redux-link" data-text="DEKO REDUX" target="_blank" rel="noopener noreferrer">DEKO REDUX</a>
+                            </div>
+                        </div>
+
+                        <!-- TIMECYCLE SECTION -->
+                        <div class="portfolio-section">
+                            <a href="#" class="redux-link section-title" data-text="TIMECYCLE">TIMECYCLE</a>
+                            <div class="section-content">
+                                <a href="https://www.youtube.com/@flowmodsgta" class="redux-link" data-text="FLOW MODS" target="_blank" rel="noopener noreferrer">FLOW MODS</a>
+                                <a href="https://www.youtube.com/@yaplot1x/videos" class="redux-link" data-text="PLOT1X" target="_blank" rel="noopener noreferrer">PLOT1X</a>
+                                <a href="https://www.youtube.com/results?search_query=gta5rp+redux" class="redux-link" data-text="70% TIMECYCLE" target="_blank" rel="noopener noreferrer">70% TIMECYCLE</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reviews-card">
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg" alt="Reviewer">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <div class="review-name">User 1</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">Great work! The animations are smooth and the design is clean.</div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg" alt="Reviewer">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <div class="review-name">User 2</div>
+                            <div class="review-stars">★★★★</div>
+                        </div>
+                        <div class="review-text">Excellent redux pack, very professional work!</div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg" alt="Reviewer">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <div class="review-name">User 3</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">Amazing quality and fast delivery. Highly recommended!</div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg" alt="Reviewer">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <div class="review-name">User 4</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">Best redux creator I've worked with!</div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg" alt="Reviewer">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <div class="review-name">User 5</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">Perfect work as always. Will order again!</div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg" alt="Reviewer">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <div class="review-name">User 6</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">Incredible attention to detail. Worth every penny!</div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg" alt="Reviewer">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <div class="review-name">User 7</div>
+                            <div class="review-stars">★★★★</div>
+                        </div>
+                        <div class="review-text">Very professional and responsive. Great communication!</div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg" alt="Reviewer">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <div class="review-name">User 8</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">Outstanding quality and service. Highly satisfied!</div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg" alt="Reviewer">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <div class="review-name">User 9</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">Fast delivery and excellent quality. Will return!</div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1114597098244018317/1349115946832367728/photo_2025-01-02_23-32-49.jpg" alt="Reviewer">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <div class="review-name">User 10</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">Amazing work ethic and results. 100% recommended!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="backgroundMusic" loop style="display: none;">
+        <source src="https://cdn.discordapp.com/attachments/1114597098244018317/1349147877129326622/neheart_-_this_feeling.mp3?ex=67d20b5f&is=67d0b9df&hm=f376fdb8c8a895b3fce923965b1b054fb9d384921931a7c08f5f74ec30f29275&" type="audio/mp3">
+    </audio>
+
+    <div class="mobile-notice">
+        Portfolio is available only in desktop version
+    </div>
+
+    <script>
+        if (window.self !== window.top) {
+            window.top.location = window.self.location;
+        }
+
+        function togglePortfolio(event) {
+            event.preventDefault();
+            const container = document.querySelector('.container');
+            
+            // Закрываем отзывы, если они открыты
+            container.classList.remove('show-reviews');
+            
+            // Переключаем портфолио
+            container.classList.toggle('show-portfolio');
+        }
+
+        function toggleReviews(event) {
+            event.preventDefault();
+            const container = document.querySelector('.container');
+            
+            // Закрываем портфолио, если оно открыто
+            container.classList.remove('show-portfolio');
+            
+            // Переключаем отзывы
+            container.classList.toggle('show-reviews');
+        }
+
+        // Функция для получения ID видео из URL YouTube
+        function getYouTubeVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        // Функция для установки превью
+        function setYouTubeThumbnail(element) {
+            const videoId = getYouTubeVideoId(element.dataset.videoUrl);
+            if (videoId) {
+                // Используем максимальное качество превью
+                element.style.backgroundImage = `url(https://img.youtube.com/vi/${videoId}/maxresdefault.jpg)`;
+                // Резервный вариант, если maxresdefault недоступен
+                element.addEventListener('error', () => {
+                    element.style.backgroundImage = `url(https://img.youtube.com/vi/${videoId}/hqdefault.jpg)`;
+                });
+            }
+        }
+
+        // Функция для открытия видео
+        function openYouTubeVideo(url) {
+            window.open(url, '_blank');
+        }
+
+        // Инициализация превью для всех видео
+        document.addEventListener('DOMContentLoaded', () => {
+            const previewElements = document.querySelectorAll('.preview-image[data-video-url]');
+            previewElements.forEach(element => {
+                setYouTubeThumbnail(element);
+            });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('backgroundMusic');
+            audio.volume = 0.005;
+            
+            let fadeInterval;
+            let isFading = false;
+            const fadeOutDuration = 2000;
+            const fadeInDuration = 1000;
+
+            function fadeOut(callback) {
+                if (isFading) return;
+                isFading = true;
+                
+                const startVolume = audio.volume;
+                const steps = 20;
+                const volumeStep = startVolume / steps;
+                let currentStep = 0;
+
+                clearInterval(fadeInterval);
+                fadeInterval = setInterval(() => {
+                    currentStep++;
+                    if (currentStep <= steps) {
+                        audio.volume = startVolume - (volumeStep * currentStep);
+                    } else {
+                        clearInterval(fadeInterval);
+                        isFading = false;
+                        if (callback) callback();
+                    }
+                }, fadeOutDuration / steps);
+            }
+
+            function fadeIn() {
+                if (isFading) return;
+                isFading = true;
+                
+                const targetVolume = 0.01;
+                const steps = 20;
+                const volumeStep = targetVolume / steps;
+                let currentStep = 0;
+
+                audio.volume = 0;
+                clearInterval(fadeInterval);
+                fadeInterval = setInterval(() => {
+                    currentStep++;
+                    if (currentStep <= steps) {
+                        audio.volume = volumeStep * currentStep;
+                    } else {
+                        clearInterval(fadeInterval);
+                        isFading = false;
+                    }
+                }, fadeInDuration / steps);
+            }
+
+            audio.addEventListener('timeupdate', function() {
+                const timeLeft = audio.duration - audio.currentTime;
+                if (timeLeft < 2.1 && !isFading) {
+                    fadeOut(() => {
+                        audio.currentTime = 0;
+                        fadeIn();
+                    });
+                }
+            });
+
+            const playAudio = () => {
+                audio.play().then(() => {
+                    fadeIn();
+                }).catch(error => {
+                    console.log("Autoplay prevented:", error);
+                });
+            };
+
+            playAudio();
+
+            document.addEventListener('click', function onFirstClick() {
+                if (audio.paused) {
+                    playAudio();
+                }
+                document.removeEventListener('click', onFirstClick);
+            }, { once: true });
+        });
+
+        // Добавьте функцию для санитизации URL
+        function sanitizeUrl(url) {
+            const pattern = /^https:\/\/cdn\.discordapp\.com\/attachments\/[0-9]+\/[0-9]+\/[^<>'"]*$/;
+            if (!pattern.test(url)) {
+                throw new Error('Invalid URL format');
+            }
+            return url;
+        }
+
+        // Используйте при установке source для audio
+        const audioSource = document.querySelector('#backgroundMusic source');
+        audioSource.src = sanitizeUrl(audioSource.src);
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBueMlRULWX-47sEXt2J7wib6DoLVkYeR4",
+            authDomain: "mirz-c98c2.firebaseapp.com",
+            databaseURL: "https://mirz-c98c2-default-rtdb.firebaseio.com/",
+            projectId: "mirz-c98c2",
+            storageBucket: "mirz-c98c2.firebasestorage.app",
+            messagingSenderId: "902406550327",
+            appId: "1:902406550327:web:773d6f56ef798d9d1aa0b2",
+            measurementId: "G-ZVJPNTKK9N"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function addBackButton() {
+            const backButton = document.createElement('button');
+            backButton.className = 'back-button';
+            backButton.textContent = 'Back';
+            backButton.style.display = 'none';
+            
+            backButton.addEventListener('click', () => {
+                document.querySelector('.container').classList.remove('show-portfolio');
+                backButton.style.display = 'none';
+            });
+
+            document.body.appendChild(backButton);
+
+            // Показываем кнопку при открытии портфолио
+            document.querySelector('.tag').addEventListener('click', () => {
+                backButton.style.display = 'block';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', addBackButton);
+
+        // Обновите обработчик клика на портфолио
+        document.querySelector('.tag').addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            // Проверяем ширину экрана
+            if (window.innerWidth <= 768) {
+                // Показываем уведомление на мобильных
+                const notice = document.querySelector('.mobile-notice');
+                notice.classList.add('show');
+                
+                // Скрываем уведомление через 3 секунды
+                setTimeout(() => {
+                    notice.classList.remove('show');
+                }, 3000);
+            } else {
+                // На десктопе показываем портфолио как обычно
+                document.querySelector('.container').classList.toggle('show-portfolio');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const card = document.querySelector('.profile-card');
+            const content = document.querySelector('.content');
+
+            document.addEventListener('mousemove', (e) => {
+                if (!card.closest('.show-portfolio')) { // Отключаем параллакс при открытом портфолио
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    const multiplier = 0.01; // Уменьшаем силу эффекта
+                    
+                    card.style.transform = `
+                        perspective(1000px)
+                        rotateY(${x * multiplier}deg)
+                        rotateX(${-y * multiplier}deg)
+                    `;
+                    
+                    content.style.transform = `
+                        translateX(${x * multiplier * 2}px)
+                        translateY(${y * multiplier * 2}px)
+                    `;
+                }
+            });
+
+            // Возвращаем в исходное положение при уходе мыши
+            document.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px)';
+                content.style.transform = 'translate(0)';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Используем Google Analytics 4 для получения данных
+            function getPageViews() {
+                gtag('get', 'G-ZVJPNTKK9N', 'page_view', (pageViews) => {
+                    document.getElementById('viewCount').textContent = pageViews || '0';
+                });
+            }
+            
+            // Обновляем счетчик каждые 5 минут
+            getPageViews();
+            setInterval(getPageViews, 300000);
+        });
+        document.addEventListener('DOMContentLoaded');
+
+        async function updateViewCount() {
+            try {
+                const response = await fetch('/.netlify/functions/counter', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const viewCountElement = document.getElementById('viewCount');
+                
+                if (viewCountElement && data.views) {
+                    viewCountElement.textContent = data.views;
+                    console.log('Счетчик обновлен:', data.views);
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+            }
+        }
+
+        // Обновляем при загрузке
+        document.addEventListener('DOMContentLoaded', updateViewCount);
+    </script>
+</body>
+</html>
